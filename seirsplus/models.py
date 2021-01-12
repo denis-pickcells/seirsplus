@@ -739,6 +739,8 @@ class SEIRSNetworkModel():
             self.A_Q = scipy.sparse.csr_matrix(self.G_Q)
         elif type(self.G_Q)==networkx.classes.graph.Graph:
             self.A_Q = networkx.adj_matrix(self.G_Q) # adj_matrix gives scipy.sparse csr_matrix
+        elif type(self.G_Q)==scipy.sparse.csr.csr_matrix:
+            self.A_Q = self.G_Q
         else:
             raise BaseException("Input an adjacency matrix or networkx object only.")
         self.numNodes_Q   = int(self.A_Q.shape[1])
