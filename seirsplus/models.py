@@ -1255,8 +1255,12 @@ class SEIRSNetworkModel():
 
             # Save information about infection events when they occur:
             if(transitionType == 'StoE'):
-                transitionNode_GNbrs  = list(self.G[transitionNode].keys())
-                transitionNode_GQNbrs = list(self.G_Q[transitionNode].keys())
+                if type(self.G) == numpy.ndarray:
+                    transitionNode_GNbrs  = self.G[transitionNode]
+                    transitionNode_GQNbrs = self.G_Q[transitionNode]
+                else:
+                    transitionNode_GNbrs  = list(self.G[transitionNode].keys())
+                    transitionNode_GQNbrs = list(self.G_Q[transitionNode].keys())
                 self.infectionsLog.append({ 't':                            self.t,
                                             'infected_node':                transitionNode,
                                             'infection_type':               transitionType,
