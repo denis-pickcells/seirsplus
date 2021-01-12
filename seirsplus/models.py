@@ -1256,19 +1256,27 @@ class SEIRSNetworkModel():
             # Save information about infection events when they occur:
             if(transitionType == 'StoE'):
                 if type(self.G) == numpy.ndarray:
-                    transitionNode_GNbrs  = self.G[transitionNode]
-                    transitionNode_GQNbrs = self.G_Q[transitionNode]
-                else:
-                    transitionNode_GNbrs  = list(self.G[transitionNode].keys())
-                    transitionNode_GQNbrs = list(self.G_Q[transitionNode].keys())
-                self.infectionsLog.append({ 't':                            self.t,
+                    transitionNode_GNbrs  = self.G[0][transitionNode]
+                    transitionNode_GQNbrs = self.G_Q[0][transitionNode]
+                    self.infectionsLog.append({ 't':                            self.t,
                                             'infected_node':                transitionNode,
                                             'infection_type':               transitionType,
                                             'infected_node_degree':         self.degree[transitionNode],
                                             'local_contact_nodes':          transitionNode_GNbrs,
-                                            'local_contact_node_states':    self.X[transitionNode_GNbrs].flatten(),
+                                            'local_contact_node_states':    self.X[transitionNode].flatten(),
                                             'isolation_contact_nodes':      transitionNode_GQNbrs,
-                                            'isolation_contact_node_states':self.X[transitionNode_GQNbrs].flatten() })
+                                            'isolation_contact_node_states':self.X[transitionNode].flatten() })
+                else:
+                    transitionNode_GNbrs  = list(self.G[transitionNode].keys())
+                    transitionNode_GQNbrs = list(self.G_Q[transitionNode].keys())
+                    self.infectionsLog.append({ 't':                            self.t,
+                                                'infected_node':                transitionNode,
+                                                'infection_type':               transitionType,
+                                                'infected_node_degree':         self.degree[transitionNode],
+                                                'local_contact_nodes':          transitionNode_GNbrs,
+                                                'local_contact_node_states':    self.X[transitionNode_GNbrs].flatten(),
+                                                'isolation_contact_nodes':      transitionNode_GQNbrs,
+                                                'isolation_contact_node_states':self.X[transitionNode_GQNbrs].flatten() })
 
             #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
